@@ -1,4 +1,4 @@
-package com.es.everis.scorer.scorerservice;
+package com.es.everis.scorer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
