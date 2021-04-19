@@ -41,7 +41,6 @@ public class PlayerServiceImplTest {
 
   @Test
   public void createPlayerWhenNameNotExistTest() throws ScorerServiceException {
-    Mockito.when(playerRepository.findByName(Mockito.anyString())).thenReturn(Optional.empty());
     when(playerRepository.save(Mockito.any(Player.class))).thenReturn(PLAYER_ENTITY);
     final PlayerRest response = playerServiceImpl.createPlayer(STRING);
     Mockito.verify(playerRepository, times(1)).save(Mockito.any(Player.class));
@@ -50,12 +49,16 @@ public class PlayerServiceImplTest {
   }
 
   @Test
-  public void createPlayerWhenPlayerAlreadyExistsTest() throws ScorerServiceException {
+  public void retrievePlayerWhenAlreadyExistsTest() throws ScorerServiceException {
     Mockito.when(playerRepository.findByName(Mockito.anyString()))
         .thenReturn(Optional.of(PLAYER_ENTITY));
-    playerServiceImpl.createPlayer(STRING);
-    Mockito.verify(playerRepository, times(0)).save(Mockito.any(Player.class));
+    final PlayerRest response = playerServiceImpl.retrievePlayer(STRING);
+    assertNotNull(response);
+  }
 
-
+  @Test
+  public void retrievePlayerWhenNotExistsTest() throws ScorerServiceException {
+    Mockito.when(playerRepository.findByName(Mockito.anyString())).thenReturn(Optional.empty());
+    playerServiceImpl.retrievePlayer(STRING);
   }
 }

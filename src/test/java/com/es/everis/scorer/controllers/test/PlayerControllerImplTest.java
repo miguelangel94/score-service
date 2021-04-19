@@ -35,9 +35,10 @@ public class PlayerControllerImplTest {
   }
 
   @Test
-  public void createPlayerTest() throws ScorerServiceException {
+  public void createPlayerWhenAlreadyExistsTest() throws ScorerServiceException {
 
     Mockito.when(playerService.createPlayer(Mockito.anyString())).thenReturn(PLAYER_REST);
+    Mockito.when(playerService.retrievePlayer(Mockito.anyString())).thenReturn(PLAYER_REST);
 
     final ScorerResponse<PlayerRest> scorerResponse =
         playerControllerImpl.createPlayer(Mockito.any());
@@ -45,7 +46,26 @@ public class PlayerControllerImplTest {
 
     assertEquals(CommonConstants.SUCCESS, scorerResponse.getStatus());
 
-    assertEquals(String.valueOf(HttpStatus.OK), scorerResponse.getCode());
+    assertEquals(String.valueOf(HttpStatus.SEE_OTHER), scorerResponse.getCode());
+
+    assertEquals(CommonConstants.OK, scorerResponse.getMessage());
+
+    assertEquals(PLAYER_REST, scorerResponse.getData());
+  }
+
+  @Test
+  public void createPlayerWhenNotExistsTest() throws ScorerServiceException {
+
+    Mockito.when(playerService.createPlayer(Mockito.anyString())).thenReturn(PLAYER_REST);
+    Mockito.when(playerService.retrievePlayer(Mockito.anyString())).thenReturn(null);
+
+    final ScorerResponse<PlayerRest> scorerResponse =
+        playerControllerImpl.createPlayer(Mockito.any());
+    assertNotNull(scorerResponse);
+
+    assertEquals(CommonConstants.SUCCESS, scorerResponse.getStatus());
+
+    assertEquals(String.valueOf(HttpStatus.CREATED), scorerResponse.getCode());
 
     assertEquals(CommonConstants.OK, scorerResponse.getMessage());
 

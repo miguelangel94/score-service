@@ -12,4 +12,5 @@ public class PlayerConverter {
   public static PlayerRest toRest(Player player) {
     return PlayerRest.builder().name(player.getName()).score(player.getSCORE()).build();
   }
+
 }

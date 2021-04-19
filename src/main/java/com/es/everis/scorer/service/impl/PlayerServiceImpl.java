@@ -18,12 +18,18 @@ public class PlayerServiceImpl implements PlayerService {
 
   @Override
   public PlayerRest createPlayer(String name) throws ScorerServiceException {
-    final Optional<Player> playerOptional = playerRepository.findByName(name);
-    if (!playerOptional.isPresent()) {
-      final Player player = playerRepository.save(Player.builder().name(name).build());
-      return PlayerConverter.toRest(player);
+    final Player player = playerRepository.save(Player.builder().name(name).build());
+    return PlayerConverter.toRest(player);
+
+  }
+
+  @Override
+  public PlayerRest retrievePlayer(String name) throws ScorerServiceException {
+    final Optional<Player> player = playerRepository.findByName(name);
+    if (player.isPresent()) {
+      return PlayerConverter.toRest(player.get());
     }
-    return PlayerConverter.toRest(playerOptional.get());
+    return null;
   }
 
 }

@@ -5,4 +5,6 @@ import com.es.everis.scorer.rest.PlayerRest;
 
 public interface PlayerService {
   PlayerRest createPlayer(String name) throws ScorerServiceException;
+
+  PlayerRest retrievePlayer(String name) throws ScorerServiceException;
 }

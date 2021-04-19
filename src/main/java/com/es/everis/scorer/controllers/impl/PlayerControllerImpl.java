@@ -29,7 +29,15 @@ public class PlayerControllerImpl implements PlayerController {
   @PostMapping(value = RestConstants.PARAMETER_PLAYER, produces = MediaType.APPLICATION_JSON_VALUE)
   public ScorerResponse<PlayerRest> createPlayer(@RequestBody final String name)
       throws ScorerServiceException {
-    return new ScorerResponse<>(CommonConstants.SUCCESS, String.valueOf(HttpStatus.OK),
+
+    final PlayerRest player = playerService.retrievePlayer(name);
+    if (player != null) {
+
+      return new ScorerResponse<>(CommonConstants.SUCCESS, String.valueOf(HttpStatus.SEE_OTHER),
+          CommonConstants.OK, player);
+    }
+
+    return new ScorerResponse<>(CommonConstants.SUCCESS, String.valueOf(HttpStatus.CREATED),
         CommonConstants.OK, playerService.createPlayer(name));
 
   }
