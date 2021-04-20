@@ -2,6 +2,8 @@ package com.es.everis.scorer.controllers.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -20,6 +22,7 @@ public class PlayerControllerImplTest {
   private static final String STRING = "Any";
   private static final int SCORE = 99;
   private static final PlayerRest PLAYER_REST = new PlayerRest(STRING, SCORE);
+  private static final List<PlayerRest> PLAYER_REST_LIST = new ArrayList<>();
 
 
   @Mock
@@ -31,6 +34,7 @@ public class PlayerControllerImplTest {
   @Before
   public void initMocks() {
     MockitoAnnotations.initMocks(this);
+    PLAYER_REST_LIST.add(PLAYER_REST);
 
   }
 
@@ -70,5 +74,23 @@ public class PlayerControllerImplTest {
     assertEquals(CommonConstants.OK, scorerResponse.getMessage());
 
     assertEquals(PLAYER_REST, scorerResponse.getData());
+  }
+
+  @Test
+  public void retrievePlayerListTest() throws ScorerServiceException {
+
+    Mockito.when(playerService.retrievePlayerList()).thenReturn(PLAYER_REST_LIST);
+
+    final ScorerResponse<List<PlayerRest>> scorerResponse =
+        playerControllerImpl.retrievePlayerList();
+    assertNotNull(scorerResponse);
+
+    assertEquals(CommonConstants.SUCCESS, scorerResponse.getStatus());
+
+    assertEquals(String.valueOf(HttpStatus.OK), scorerResponse.getCode());
+
+    assertEquals(CommonConstants.OK, scorerResponse.getMessage());
+
+    assertEquals(PLAYER_REST, scorerResponse.getData().get(0));
   }
 }
