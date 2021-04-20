@@ -1,6 +1,8 @@
 package com.es.everis.scorer.service.impl;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.es.everis.scorer.entities.Player;
@@ -30,6 +32,12 @@ public class PlayerServiceImpl implements PlayerService {
       return PlayerConverter.toRest(player.get());
     }
     return null;
+  }
+
+  @Override
+  public List<PlayerRest> retrievePlayerList() throws ScorerServiceException {
+    return playerRepository.findAll().stream().map(player -> PlayerConverter.toRest(player))
+        .collect(Collectors.toList());
   }
 
 }
