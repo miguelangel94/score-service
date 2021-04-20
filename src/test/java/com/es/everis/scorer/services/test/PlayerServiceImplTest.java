@@ -36,7 +36,7 @@ public class PlayerServiceImplTest {
   @Before
   public void initMocks() {
     MockitoAnnotations.initMocks(this);
-    PLAYER_REST.builder().name(PLAYER_ENTITY.getName()).score(PLAYER_ENTITY.getSCORE()).build();
+    PLAYER_REST.builder().name(PLAYER_ENTITY.getName()).score(PLAYER_ENTITY.getScore()).build();
   }
 
   @Test

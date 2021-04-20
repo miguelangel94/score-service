@@ -31,5 +31,5 @@ public class Player implements Serializable {
   private String name;
 
   @Column(name = "SCORE", nullable = false)
-  private int SCORE = 0;
+  private int score = 0;
 }
