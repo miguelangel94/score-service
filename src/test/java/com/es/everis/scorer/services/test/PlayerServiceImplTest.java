@@ -1,6 +1,7 @@
 package com.es.everis.scorer.services.test;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
@@ -66,7 +67,7 @@ public class PlayerServiceImplTest {
   public void retrievePlayerWhenNotExistsTest() throws ScorerServiceException {
     Mockito.when(playerRepository.findByName(Mockito.anyString())).thenReturn(Optional.empty());
     final PlayerRest response = playerServiceImpl.retrievePlayer(NAME_STRING);
-    assertEquals(null, response);
+    assertNull(response);
   }
 
   @Test
