@@ -65,7 +65,8 @@ public class PlayerServiceImplTest {
   @Test
   public void retrievePlayerWhenNotExistsTest() throws ScorerServiceException {
     Mockito.when(playerRepository.findByName(Mockito.anyString())).thenReturn(Optional.empty());
-    playerServiceImpl.retrievePlayer(NAME_STRING);
+    final PlayerRest response = playerServiceImpl.retrievePlayer(NAME_STRING);
+    assertEquals(null, response);
   }
 
   @Test
