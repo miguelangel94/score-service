@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -15,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import com.es.everis.scorer.entities.Player;
+import com.es.everis.scorer.exceptions.NotFoundException;
 import com.es.everis.scorer.exceptions.ScorerServiceException;
 import com.es.everis.scorer.repositories.PlayerRepository;
 import com.es.everis.scorer.rest.PlayerRest;
@@ -77,5 +79,30 @@ public class PlayerServiceImplTest {
     assertNotNull(response);
     assertEquals(NAME_STRING, response.get(0).getName());
 
+  }
+
+  @Test
+  public void updateScoreByPlayerNameOKTest() throws ScorerServiceException {
+    Mockito.when(playerRepository.findByName(Mockito.anyString()))
+        .thenReturn(Optional.of(PLAYER_ENTITY));
+    when(playerRepository.save(Mockito.any(Player.class))).thenReturn(PLAYER_ENTITY);
+    final PlayerRest response = playerServiceImpl.updateScoreByPlayerName(NAME_STRING);
+    assertNotNull(response);
+    assertEquals(NAME_STRING, response.getName());
+
+  }
+
+  @Test(expected = NotFoundException.class)
+  public void updateScoreByPlayerNameKOTest() throws ScorerServiceException {
+    Mockito.when(playerRepository.findByName(Mockito.anyString())).thenReturn(Optional.empty());
+    playerServiceImpl.updateScoreByPlayerName(Mockito.anyString());
+
+
+  }
+
+
+  @After
+  public void cleanLists() {
+    PLAYER_ENTITY_LIST.clear();
   }
 }
