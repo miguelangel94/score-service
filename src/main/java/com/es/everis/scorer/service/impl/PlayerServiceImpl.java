@@ -43,16 +43,12 @@ public class PlayerServiceImpl implements PlayerService {
   }
 
   @Override
-  public PlayerRest updateScoreByPlayerName(String name) throws ScorerServiceException {
+  public PlayerRest updateScoreByPlayerName(String name, int score) throws ScorerServiceException {
     final Player player = playerRepository.findByName(name)
         .orElseThrow(() -> new NotFoundException(ExceptionConstants.CODE404_1,
             ExceptionConstants.MESSAGE_PLAYER_NOT_FOUND));
-    return PlayerConverter.toRest(playerRepository.save(increaseScoreOfAPlayer(player)));
+    player.setScore(score);
+    return PlayerConverter.toRest(playerRepository.save(player));
 
-  }
-
-  private Player increaseScoreOfAPlayer(Player player) {
-    player.setScore(player.getScore() + 1);
-    return player;
   }
 }

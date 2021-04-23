@@ -11,5 +11,5 @@ public interface PlayerService {
 
   List<PlayerRest> retrievePlayerList() throws ScorerServiceException;
 
-  PlayerRest updateScoreByPlayerName(String name) throws ScorerServiceException;
+  PlayerRest updateScoreByPlayerName(String name, int score) throws ScorerServiceException;
 }

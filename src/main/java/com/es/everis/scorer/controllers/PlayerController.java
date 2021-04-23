@@ -11,6 +11,7 @@ public interface PlayerController {
 
   ScorerResponse<List<PlayerRest>> retrievePlayerList() throws ScorerServiceException;
 
-  ScorerResponse<PlayerRest> updateScoreByPlayerName(String name) throws ScorerServiceException;
+  ScorerResponse<PlayerRest> updateScoreByPlayerName(String name, int score)
+      throws ScorerServiceException;
 
 }

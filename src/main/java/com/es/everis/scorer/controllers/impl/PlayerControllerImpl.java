@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -56,11 +56,11 @@ public class PlayerControllerImpl implements PlayerController {
 
   @Override
   @ResponseStatus(HttpStatus.OK)
-  @PutMapping(value = RestConstants.RESOURCE_PLAYER + RestConstants.PARAMETER_NAME_PLAYER,
+  @PatchMapping(value = RestConstants.RESOURCE_PLAYER + RestConstants.PARAMETER_NAME_PLAYER,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ScorerResponse<PlayerRest> updateScoreByPlayerName(@PathVariable final String name)
-      throws ScorerServiceException {
+  public ScorerResponse<PlayerRest> updateScoreByPlayerName(@PathVariable final String name,
+      @RequestBody final int score) throws ScorerServiceException {
     return new ScorerResponse<>(CommonConstants.SUCCESS, String.valueOf(HttpStatus.OK),
-        CommonConstants.OK, playerService.updateScoreByPlayerName(name));
+        CommonConstants.OK, playerService.updateScoreByPlayerName(name, score));
   }
 }

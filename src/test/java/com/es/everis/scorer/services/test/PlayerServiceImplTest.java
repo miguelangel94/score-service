@@ -86,8 +86,9 @@ public class PlayerServiceImplTest {
     Mockito.when(playerRepository.findByName(Mockito.anyString()))
         .thenReturn(Optional.of(PLAYER_ENTITY));
     when(playerRepository.save(Mockito.any(Player.class))).thenReturn(PLAYER_ENTITY);
-    final PlayerRest response = playerServiceImpl.updateScoreByPlayerName(NAME_STRING);
+    final PlayerRest response = playerServiceImpl.updateScoreByPlayerName(NAME_STRING, SCORE);
     assertNotNull(response);
+    assertEquals(SCORE, response.getScore());
     assertEquals(NAME_STRING, response.getName());
 
   }
@@ -95,11 +96,10 @@ public class PlayerServiceImplTest {
   @Test(expected = NotFoundException.class)
   public void updateScoreByPlayerNameKOTest() throws ScorerServiceException {
     Mockito.when(playerRepository.findByName(Mockito.anyString())).thenReturn(Optional.empty());
-    playerServiceImpl.updateScoreByPlayerName(Mockito.anyString());
+    playerServiceImpl.updateScoreByPlayerName(NAME_STRING, SCORE);
 
 
   }
-
 
   @After
   public void cleanLists() {
