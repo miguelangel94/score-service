@@ -6,10 +6,12 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.es.everis.scorer.entities.Player;
+import com.es.everis.scorer.exceptions.NotFoundException;
 import com.es.everis.scorer.exceptions.ScorerServiceException;
 import com.es.everis.scorer.repositories.PlayerRepository;
 import com.es.everis.scorer.rest.PlayerRest;
 import com.es.everis.scorer.service.PlayerService;
+import com.es.everis.scorer.utils.ExceptionConstants;
 import com.es.everis.scorer.utils.converters.PlayerConverter;
 
 @Service
@@ -40,4 +42,13 @@ public class PlayerServiceImpl implements PlayerService {
         .collect(Collectors.toList());
   }
 
+  @Override
+  public PlayerRest updateScoreByPlayerName(String name, int score) throws ScorerServiceException {
+    final Player player = playerRepository.findByName(name)
+        .orElseThrow(() -> new NotFoundException(ExceptionConstants.CODE404_1,
+            ExceptionConstants.MESSAGE_PLAYER_NOT_FOUND));
+    player.setScore(score);
+    return PlayerConverter.toRest(playerRepository.save(player));
+
+  }
 }

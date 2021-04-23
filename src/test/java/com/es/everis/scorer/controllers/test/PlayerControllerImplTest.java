@@ -93,4 +93,24 @@ public class PlayerControllerImplTest {
 
     assertEquals(PLAYER_REST, scorerResponse.getData().get(0));
   }
+
+  @Test
+  public void updateScoreByPlayerNameTest() throws ScorerServiceException {
+
+    Mockito.when(playerService.updateScoreByPlayerName(Mockito.anyString(), Mockito.anyInt()))
+        .thenReturn(PLAYER_REST);
+
+    final ScorerResponse<PlayerRest> scorerResponse =
+        playerControllerImpl.updateScoreByPlayerName(STRING, SCORE);
+    assertNotNull(scorerResponse);
+
+    assertEquals(CommonConstants.SUCCESS, scorerResponse.getStatus());
+
+    assertEquals(String.valueOf(HttpStatus.OK), scorerResponse.getCode());
+
+    assertEquals(CommonConstants.OK, scorerResponse.getMessage());
+
+    assertEquals(PLAYER_REST, scorerResponse.getData());
+  }
+
 }
